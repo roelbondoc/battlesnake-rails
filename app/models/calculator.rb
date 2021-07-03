@@ -20,7 +20,7 @@ class Calculator
   end
 
   def can_move_up?
-    y < max_y && empty?(x, y+1)
+    y < max_y-1 && empty?(x, y+1)
   end
 
   def can_move_down?
@@ -32,7 +32,7 @@ class Calculator
   end
 
   def can_move_right?
-    x < max_x && empty?(x+1, y)
+    x < max_x-1 && empty?(x+1, y)
   end
 
   def empty?(x, y)
