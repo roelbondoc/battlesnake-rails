@@ -70,6 +70,8 @@ class Parser
 
   def parse_other_snakes
     params.dig(:board, :snakes)&.each do |snake|
+      next if snake[:id] == params.dig(:you, :id)
+
       Coordinate.create(
         turn: turn,
         snake_id: snake[:id],
