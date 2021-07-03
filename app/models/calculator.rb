@@ -36,7 +36,7 @@ class Calculator
   end
 
   def empty?(x, y)
-    coordinates.where.not(content_type: :food).where(x: x, y: y)
+    coordinates.where.not(content_type: :food).where(x: x, y: y).blank?
   end
 
   def max_y

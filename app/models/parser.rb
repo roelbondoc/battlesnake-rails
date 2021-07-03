@@ -70,32 +70,32 @@ class Parser
 
   def parse_other_snakes
     params.dig(:board, :snakes)&.each do |snake|
-      next if snake[:id] == params.dig(:you, :id)
-
-      Coordinate.create(
-        turn: turn,
-        snake_id: snake[:id],
-        max_x: max_x,
-        max_y: max_y,
-        game_id: game_id,
-        x: snake[:head][:x],
-        y: snake[:head][:y],
-        is_me: false,
-        content_type: :head
-      )
-
-      snake[:body]&.each do |body|
+      if snake[:id] != params.dig(:you, :id)
         Coordinate.create(
           turn: turn,
           snake_id: snake[:id],
           max_x: max_x,
           max_y: max_y,
           game_id: game_id,
-          x: body[:x],
-          y: body[:y],
+          x: snake[:head][:x],
+          y: snake[:head][:y],
           is_me: false,
-          content_type: :body
+          content_type: :head
         )
+
+        snake[:body]&.each do |body|
+          Coordinate.create(
+            turn: turn,
+            snake_id: snake[:id],
+            max_x: max_x,
+            max_y: max_y,
+            game_id: game_id,
+            x: body[:x],
+            y: body[:y],
+            is_me: false,
+            content_type: :body
+          )
+        end
       end
     end
   end
