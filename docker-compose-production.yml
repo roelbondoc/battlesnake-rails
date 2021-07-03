@@ -1,0 +1,22 @@
+version: "3"
+services:
+
+  app:
+    build: .
+    command: bin/rails server -b 0.0.0.0 -p 3000
+    environment:
+      - RAILS_ENV=production
+    volumes:
+      - .:/app
+    links:
+      - db
+    ports:
+      - 3000:3000
+
+  db:
+    image: postgres:13.1-alpine
+    environment:
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - /var/lib/postgresql/data
