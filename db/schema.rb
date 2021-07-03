@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 2021_07_03_201416) do
   enable_extension "plpgsql"
 
   create_table "coordinates", force: :cascade do |t|
+    t.integer "turn"
     t.integer "max_x"
     t.integer "max_y"
     t.string "game_id"

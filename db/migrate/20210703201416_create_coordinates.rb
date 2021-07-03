@@ -1,6 +1,7 @@
 class CreateCoordinates < ActiveRecord::Migration[6.1]
   def change
     create_table :coordinates do |t|
+      t.integer :turn
       t.integer :max_x
       t.integer :max_y
       t.string :game_id

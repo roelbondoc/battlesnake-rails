@@ -15,6 +15,7 @@ class Parser
   def parse_food
     params.dig(:board, :food)&.each do |food|
       Coordinate.create(
+        turn: turn,
         max_x: max_x,
         max_y: max_y,
         game_id: game_id,
@@ -28,6 +29,7 @@ class Parser
   def parse_hazards
     params.dig(:board, :hazards)&.each do |hazard|
       Coordinate.create(
+        turn: turn,
         max_x: max_x,
         max_y: max_y,
         game_id: game_id,
@@ -40,6 +42,7 @@ class Parser
 
   def parse_my_snake
     Coordinate.create(
+      turn: turn,
       snake_id: params.dig(:you, :id),
       max_x: max_x,
       max_y: max_y,
@@ -52,6 +55,7 @@ class Parser
 
     params.dig(:you, :body)&.each do |body|
       Coordinate.create(
+        turn: turn,
         snake_id: params.dig(:you, :id),
         max_x: max_x,
         max_y: max_y,
@@ -67,6 +71,7 @@ class Parser
   def parse_other_snakes
     params.dig(:board, :snakes)&.each do |snake|
       Coordinate.create(
+        turn: turn,
         snake_id: snake[:id],
         max_x: max_x,
         max_y: max_y,
@@ -79,6 +84,7 @@ class Parser
 
       snake[:body]&.each do |body|
         Coordinate.create(
+          turn: turn,
           snake_id: snake[:id],
           max_x: max_x,
           max_y: max_y,
@@ -102,5 +108,9 @@ class Parser
 
   def game_id
     params.dig(:game, :id)
+  end
+
+  def turn
+    params.dig(:turn)
   end
 end

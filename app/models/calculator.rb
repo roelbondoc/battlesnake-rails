@@ -1,4 +1,4 @@
-class Calcultor
+class Calculator
   attr_reader :game_id, :turn
 
   def initialize(game_id, turn)
