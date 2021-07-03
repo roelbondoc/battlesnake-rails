@@ -7,7 +7,7 @@ class Calculator
   end
 
   def move
-    valid_moves.sample
+    valid_moves.sample || %w(up down left right).sample
   end
 
   def valid_moves
