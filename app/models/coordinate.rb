@@ -7,4 +7,5 @@ class Coordinate < ApplicationRecord
   }
 
   scope :me, -> { where(is_me: true) }
+  scope :not_me, -> { where(is_me: false) }
 end

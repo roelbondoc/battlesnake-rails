@@ -49,10 +49,12 @@ class Parser
       max_x: max_x,
       max_y: max_y,
       game_id: game_id,
-      x: params.dig(:you, :head)[:x],
-      y: params.dig(:you, :head)[:y],
+      x: params.dig(:you, :head, :x),
+      y: params.dig(:you, :head, :y),
       distance: 0,
       is_me: true,
+      health: params.dig(:you, :health),
+      length: params.dig(:you, :length),
       content_type: :head
     )
 
@@ -67,6 +69,8 @@ class Parser
         y: body[:y],
         distance: distance(body[:x], body[:y]),
         is_me: true,
+        health: params.dig(:you, :health),
+        length: params.dig(:you, :length),
         content_type: :body
       )
     end
@@ -81,10 +85,12 @@ class Parser
           max_x: max_x,
           max_y: max_y,
           game_id: game_id,
-          x: snake[:head][:x],
-          y: snake[:head][:y],
-          distance: distance(snake[:head][:x], snake[:head][:y]),
+          x: snake.dig(:head, :x),
+          y: snake.dig(:head, :y),
+          distance: distance(snake.dig(:head, :x), snake.dig(:head, :y)),
           is_me: false,
+          health: snake[:health],
+          length: snake[:length],
           content_type: :head
         )
 
@@ -99,6 +105,8 @@ class Parser
             y: body[:y],
             distance: distance(body[:x], body[:y]),
             is_me: false,
+            health: snake[:health],
+            length: snake[:length],
             content_type: :body
           )
         end
