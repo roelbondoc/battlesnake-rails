@@ -17,4 +17,4 @@ RUN yarn install
 
 ADD . /app
 
-RUN RAILS_ENV=production bin/rails assets:precompile
+#RUN RAILS_ENV=production bin/rails assets:precompile
