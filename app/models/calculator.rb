@@ -7,11 +7,31 @@ class Calculator
   end
 
   def move
-    valid_moves.sample || %w(up down left right).sample
+    (prioritized_moves & valid_moves).first ||
+      valid_moves.sample ||
+      %w(up down left right).sample
+  end
+
+  def prioritized_moves
+    @prioritized_moves ||= [].tap do |moves|
+      coordinates.food.order(distance: :asc).map do |food|
+        if head_x < food.x
+          moves << 'right'
+        elsif head_x > food.x
+          moves << 'left'
+        end
+
+        if head_y < food.y
+          moves << 'up'
+        elsif head_y > food.y
+          moves << 'down'
+        end
+      end
+    end
   end
 
   def valid_moves
-    [].tap do |moves|
+    @valid_moves ||= [].tap do |moves|
       moves << 'up' if can_move_up?
       moves << 'down' if can_move_down?
       moves << 'left' if can_move_left?
@@ -20,19 +40,19 @@ class Calculator
   end
 
   def can_move_up?
-    y < max_y-1 && empty?(x, y+1)
+    head_y < max_y-1 && empty?(head_x, head_y+1)
   end
 
   def can_move_down?
-    y > 0 && empty?(x, y-1)
+    head_y > 0 && empty?(head_x, head_y-1)
   end
 
   def can_move_left?
-    x > 0 && empty?(x-1, y)
+    head_x > 0 && empty?(head_x-1, head_y)
   end
 
   def can_move_right?
-    x < max_x-1 && empty?(x+1, y)
+    head_x < max_x-1 && empty?(head_x+1, head_y)
   end
 
   def empty?(x, y)
@@ -47,11 +67,11 @@ class Calculator
     head.max_x
   end
 
-  def x
+  def head_x
     head.x
   end
 
-  def y
+  def head_y
     head.y
   end
 

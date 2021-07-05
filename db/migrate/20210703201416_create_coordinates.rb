@@ -8,6 +8,7 @@ class CreateCoordinates < ActiveRecord::Migration[6.1]
 
       t.integer :x
       t.integer :y
+      t.integer :distance
 
       t.string :snake_id
       t.string :content_type

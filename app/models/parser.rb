@@ -21,6 +21,7 @@ class Parser
         game_id: game_id,
         x: food[:x],
         y: food[:y],
+        distance: distance(food[:x], food[:y]),
         content_type: :food
       )
     end
@@ -35,6 +36,7 @@ class Parser
         game_id: game_id,
         x: hazard[:x],
         y: hazard[:y],
+        distance: distance(hazard[:x], hazard[:y]),
         content_type: :hazard
       )
     end
@@ -49,6 +51,7 @@ class Parser
       game_id: game_id,
       x: params.dig(:you, :head)[:x],
       y: params.dig(:you, :head)[:y],
+      distance: 0,
       is_me: true,
       content_type: :head
     )
@@ -62,6 +65,7 @@ class Parser
         game_id: game_id,
         x: body[:x],
         y: body[:y],
+        distance: distance(body[:x], body[:y]),
         is_me: true,
         content_type: :body
       )
@@ -79,6 +83,7 @@ class Parser
           game_id: game_id,
           x: snake[:head][:x],
           y: snake[:head][:y],
+          distance: distance(snake[:head][:x], snake[:head][:y]),
           is_me: false,
           content_type: :head
         )
@@ -92,6 +97,7 @@ class Parser
             game_id: game_id,
             x: body[:x],
             y: body[:y],
+            distance: distance(body[:x], body[:y]),
             is_me: false,
             content_type: :body
           )
@@ -114,5 +120,12 @@ class Parser
 
   def turn
     params.dig(:turn)
+  end
+
+  def distance(x2, y2)
+    x1 = params.dig(:you, :head)[:x]
+    y1 = params.dig(:you, :head)[:y]
+
+    Integer.sqrt((x2 - x1)**2 + (y2 - y1)**2)
   end
 end

@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2021_07_03_201416) do
     t.string "game_id"
     t.integer "x"
     t.integer "y"
+    t.integer "distance"
     t.string "snake_id"
     t.string "content_type"
     t.boolean "is_me"
