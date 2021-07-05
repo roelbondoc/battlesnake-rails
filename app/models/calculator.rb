@@ -16,8 +16,7 @@ class Calculator
 
   def prioritized_moves
     @prioritized_moves ||= [].tap do |moves|
-      direction = health_in_danger? ? :asc : :desc
-      coordinates.food.order(distance: direction).map do |food|
+      coordinates.food.order(distance: :asc).map do |food|
         if head_x < food.x
           moves << 'right'
         elsif head_x > food.x
