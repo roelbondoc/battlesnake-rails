@@ -75,5 +75,5 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   config.hosts << 'server01.roelbondoc.com'
-  config.hosts << 'e4ddc0eb1334.ngrok.io'
+  config.hosts << '.ngrok.io'
 end
