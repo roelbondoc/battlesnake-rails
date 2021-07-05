@@ -9,7 +9,8 @@ class Calculator
   def move
     ((prioritized_moves & valid_moves) - (possible_hazard_moves + too_crowded_moves(1))).first ||
     ((prioritized_moves & valid_moves) - (possible_hazard_moves + too_crowded_moves(2))).first ||
-    ((prioritized_moves & valid_moves) - too_crowded_moves).first ||
+    ((prioritized_moves & valid_moves) - too_crowded_moves(1)).first ||
+    ((prioritized_moves & valid_moves) - too_crowded_moves(2)).first ||
     ((prioritized_moves & valid_moves) - possible_hazard_moves).first ||
       (prioritized_moves & valid_moves).first ||
       (valid_moves - possible_hazard_moves).sample ||
