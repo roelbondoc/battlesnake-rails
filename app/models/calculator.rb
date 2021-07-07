@@ -1,9 +1,10 @@
 class Calculator
-  attr_reader :game_id, :turn
+  attr_reader :game_id, :turn, :snake_id
 
-  def initialize(game_id, turn)
+  def initialize(game_id, turn, snake_id)
     @game_id = game_id
     @turn = turn
+    @snake_id = snake_id
   end
 
   def move
@@ -108,7 +109,7 @@ class Calculator
   end
 
   def possible_stonger_head?(x, y)
-    coordinates.not_me.head.where('length >= ?', head_length).any? do |other_head|
+    coordinates.where.not(snake_id: snake_id).head.where('length >= ?', head_length).any? do |other_head|
       (x == other_head.x && y == other_head.y + 1) ||
         (x == other_head.x && y == other_head.y - 1) ||
       (x == other_head.x + 1 && y == other_head.y) ||
@@ -145,7 +146,7 @@ class Calculator
   end
 
   def head
-    @head ||= coordinates.me.head.first
+    @head ||= coordinates.where(snake_id: snake_id).head.first
   end
 
   def coordinates

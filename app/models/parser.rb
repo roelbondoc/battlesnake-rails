@@ -8,8 +8,7 @@ class Parser
   def parse
     parse_food
     parse_hazards
-    parse_my_snake
-    parse_other_snakes
+    parse_snakes
   end
 
   def parse_food
@@ -42,74 +41,38 @@ class Parser
     end
   end
 
-  def parse_my_snake
-    Coordinate.create(
-      turn: turn,
-      snake_id: params.dig(:you, :id),
-      max_x: max_x,
-      max_y: max_y,
-      game_id: game_id,
-      x: params.dig(:you, :head, :x),
-      y: params.dig(:you, :head, :y),
-      distance: 0,
-      is_me: true,
-      health: params.dig(:you, :health),
-      length: params.dig(:you, :length),
-      content_type: :head
-    )
-
-    params.dig(:you, :body)&.each do |body|
+  def parse_snakes
+    params.dig(:board, :snakes)&.each do |snake|
       Coordinate.create(
         turn: turn,
-        snake_id: params.dig(:you, :id),
+        snake_id: snake[:id],
         max_x: max_x,
         max_y: max_y,
         game_id: game_id,
-        x: body[:x],
-        y: body[:y],
-        distance: distance(body[:x], body[:y]),
-        is_me: true,
-        health: params.dig(:you, :health),
-        length: params.dig(:you, :length),
-        content_type: :body
+        x: snake.dig(:head, :x),
+        y: snake.dig(:head, :y),
+        distance: distance(snake.dig(:head, :x), snake.dig(:head, :y)),
+        is_me: false,
+        health: snake[:health],
+        length: snake[:length],
+        content_type: :head
       )
-    end
-  end
 
-  def parse_other_snakes
-    params.dig(:board, :snakes)&.each do |snake|
-      if snake[:id] != params.dig(:you, :id)
+      snake[:body]&.each do |body|
         Coordinate.create(
           turn: turn,
           snake_id: snake[:id],
           max_x: max_x,
           max_y: max_y,
           game_id: game_id,
-          x: snake.dig(:head, :x),
-          y: snake.dig(:head, :y),
-          distance: distance(snake.dig(:head, :x), snake.dig(:head, :y)),
+          x: body[:x],
+          y: body[:y],
+          distance: distance(body[:x], body[:y]),
           is_me: false,
           health: snake[:health],
           length: snake[:length],
-          content_type: :head
+          content_type: :body
         )
-
-        snake[:body]&.each do |body|
-          Coordinate.create(
-            turn: turn,
-            snake_id: snake[:id],
-            max_x: max_x,
-            max_y: max_y,
-            game_id: game_id,
-            x: body[:x],
-            y: body[:y],
-            distance: distance(body[:x], body[:y]),
-            is_me: false,
-            health: snake[:health],
-            length: snake[:length],
-            content_type: :body
-          )
-        end
       end
     end
   end

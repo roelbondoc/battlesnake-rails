@@ -14,7 +14,12 @@ class CommandsController < ApplicationController
 
   def move
     Parser.new(params).parse
-    calculator = Calculator.new(params.dig(:game, :id), params.dig(:turn))
+    calculator = Calculator.new(
+      params.dig(:game, :id),
+      params.dig(:turn),
+      params.dig(:you, :id)
+    )
+
     render json: {
       move: calculator.move
     }
