@@ -1,11 +1,9 @@
 class Coordinate < ApplicationRecord
   enum content_type: {
     head: 0,
-    body: 1,
-    food: 2,
-    hazard: 3
+    tail: 1,
+    body: 2,
+    food: 3,
+    hazard: 4
   }
-
-  scope :me, -> { where(is_me: true) }
-  scope :not_me, -> { where(is_me: false) }
 end

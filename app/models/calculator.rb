@@ -9,11 +9,9 @@ class Calculator
 
   def move
     ((prioritized_moves & valid_moves) - (possible_hazard_moves + too_crowded_moves(1))).first ||
-    ((prioritized_moves & valid_moves) - (possible_hazard_moves + too_crowded_moves(2))).first ||
-    ((prioritized_moves & valid_moves) - too_crowded_moves(1)).first ||
-    ((prioritized_moves & valid_moves) - too_crowded_moves(2)).first ||
-    ((prioritized_moves & valid_moves) - possible_hazard_moves).first ||
-      (prioritized_moves & valid_moves).first ||
+      ((prioritized_moves & valid_moves) - (possible_hazard_moves + too_crowded_moves(2))).first ||
+      ((prioritized_moves & valid_moves) - too_crowded_moves(1)).first ||
+      ((prioritized_moves & valid_moves) - too_crowded_moves(2)).first ||
       (valid_moves - possible_hazard_moves).sample ||
       valid_moves.sample ||
       %w(up down left right).sample
@@ -101,9 +99,9 @@ class Calculator
 
   def empty?(x, y)
     dont_avoid = if head_in_hazard? || !health_in_danger?
-                   %i[food hazard]
+                   %i[tail food hazard]
                  else
-                   :food
+                   %i[tail food]
                  end
     coordinates.where.not(content_type: dont_avoid).where(x: x, y: y).blank?
   end

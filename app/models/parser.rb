@@ -58,7 +58,7 @@ class Parser
         content_type: :head
       )
 
-      snake[:body]&.each do |body|
+      snake[:body]&.each_with_index do |body, index|
         Coordinate.create(
           turn: turn,
           snake_id: snake[:id],
@@ -71,7 +71,7 @@ class Parser
           is_me: false,
           health: snake[:health],
           length: snake[:length],
-          content_type: :body
+          content_type: index+1 == snake[:length] ? :tail : :body
         )
       end
     end
